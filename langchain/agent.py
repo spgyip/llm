@@ -16,6 +16,7 @@ def parse_html(content) -> str:
     return text_content_with_link
 
 def fetch_web_page(url: str) -> str:
+    print("===============RUN fetch_web_page")
     response = request.get(url, headers=HEADERS)
     return parse_html(response.content)
 

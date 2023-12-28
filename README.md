@@ -8,6 +8,7 @@ source llm-env/bin/active
 
 pip3 install torch, torchvision, torchaudio
 pip3 install openai
+pip3 install langchain
 ```
 
 # Clone
