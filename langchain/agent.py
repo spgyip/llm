@@ -17,7 +17,7 @@ def parse_html(content) -> str:
 
 def fetch_web_page(url: str) -> str:
     print("===============RUN fetch_web_page")
-    response = request.get(url, headers=HEADERS)
+    response = requests.get(url, headers=HEADERS)
     return parse_html(response.content)
 
 ddg_search = langchain.tools.DuckDuckGoSearchResults()
@@ -30,8 +30,9 @@ web_fetch_tool = langchain.tools.Tool.from_function(
 
 prompt_template = "Summarize the following content: {content}"
 llm = langchain.chat_models.ChatOpenAI(
-        base_url="http://localhost:1234/v1", 
-        model_name="local_model"
+        #base_url="http://localhost:1234/v1", 
+        model="gpt-3.5-turbo-16k",
+        #model="gpt-3.5-turbo-1106",
       )
 llm_chain = langchain.chains.LLMChain(
             llm=llm, 
@@ -48,7 +49,8 @@ tools = [ddg_search, web_fetch_tool, summarize_tool]
 
 agent = langchain.agents.initialize_agent(
             tools=tools,
-            agent_type=langchain.agents.AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+            #agent_type=langchain.agents.AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+            agent_type=langchain.agents.AgentType.OPENAI_FUNCTIONS,
             llm=llm,
             verbose=True
         )
